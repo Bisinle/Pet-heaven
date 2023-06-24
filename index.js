@@ -1,12 +1,50 @@
-document.addEventListener("DOMContentLoaded", () => {
-  // Function that creates the cards
-  function renderCard(animals) {
-    const mainDiv = document.querySelector("#main");
+//Grap the form elements
+const form = document.querySelector("form");
+const AllInput = document.querySelectorAll(".inputs");
+const submitBtn = document.querySelector(".submit");
 
-    for (const animal of animals) {
-      const Card = document.createElement("div");
-      Card.classList.add("card");
-      Card.innerHTML = `
+function inputObject(input) {
+  let formObject = {};
+  for (let i = 0; i < input.length; i++) {
+    input[i].addEventListener("input", (e) => {
+      input[i].setAttribute("value", `${e.target.value}`);
+      formObject[input[i].id] = input[i].value;
+      input[i] = "";
+    });
+  }
+
+  // formObject.votes = votes;
+  postForm(formObject, input);
+  delete formObject;
+}
+//the input object creator
+inputObject(AllInput);
+//the POST function
+function postForm(formObject, input) {
+  console.log(formObject);
+
+  submitBtn.addEventListener("click", () => {
+    console.log(formObject);
+    for (const key in formObject) {
+      delete formObject[key];
+    }
+    input.forEach((input) => {
+      if (input.value ===''){
+        alert("allas")
+      }
+    });
+  });
+}
+
+//***************************************************************** */
+// Function that creates the cards
+function renderCard(animals) {
+  const mainDiv = document.querySelector("#main");
+
+  for (const animal of animals) {
+    const Card = document.createElement("div");
+    Card.classList.add("card");
+    Card.innerHTML = `
       <h1 class="card-title">${animal.name}</h1>
       <div class="card-body card-bodyHover">
         <img src="${animal.image}" class="card-img" alt="" />
@@ -17,97 +55,96 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
-      mainDiv.append(Card);
-    }
+    mainDiv.append(Card);
+  }
 
-    let voteBtn = mainDiv.querySelectorAll(".card .votes");
-    let resetBtn = mainDiv.querySelectorAll(".card .reset");
-    console.log(resetBtn);
-    //**********INCREASES THE VOTE COUNT************************** */
-    voteBtn.forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const animalID = btn.getAttribute("data-animal-id");
-        const animalVotes = parseInt(btn.getAttribute("data-animal-votes"));
-        console.log(animalVotes);
+  let voteBtn = mainDiv.querySelectorAll(".card .votes");
+  let resetBtn = mainDiv.querySelectorAll(".card .reset");
+  // console.log(resetBtn);
+  //**********INCREASES THE VOTE COUNT************************** */
+  voteBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const animalID = btn.getAttribute("data-animal-id");
+      const animalVotes = parseInt(btn.getAttribute("data-animal-votes"));
+      console.log(animalVotes);
 
-        IncreaseVoteCount(animalID, animalVotes, btn);
-      });
-      //***********RESETS THE VOTE COUNT************************ */
-      resetBtn.forEach((btn) => {
-        btn.addEventListener("click", () => {
-          let resetID = btn.getAttribute("data-reset-id");
-          voteReseter(resetID);
-        });
+      IncreaseVoteCount(animalID, animalVotes, btn);
+    });
+    //***********RESETS THE VOTE COUNT************************ */
+    resetBtn.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        let resetID = btn.getAttribute("data-reset-id");
+        voteReseter(resetID);
       });
     });
+  });
 
-    clickAnimalName(mainDiv);
-  }
-  //*********************************************************************** */
+  clickAnimalName(mainDiv);
+}
+//*********************************************************************** */
 
-  // Function to display the details of the animal when the name is clicked
-  function clickAnimalName(mainDiv) {
-    let cards = mainDiv.querySelectorAll(".card");
-    cards.forEach((card) => {
-      let cardbody = card.lastElementChild;
-      card.firstElementChild.addEventListener("click", () => {
-        cardbody.style.top = "0";
-      });
-      card.addEventListener("mouseleave", () => {
-        cardbody.style.top = "-100%";
-      });
+// Function to display the details of the animal when the name is clicked
+function clickAnimalName(mainDiv) {
+  let cards = mainDiv.querySelectorAll(".card");
+  cards.forEach((card) => {
+    let cardbody = card.lastElementChild;
+    card.firstElementChild.addEventListener("click", () => {
+      cardbody.style.top = "0";
     });
-  }
-  //**************************************************************88 */
-  function voteReseter(animalID) {
-    fetch(`http://localhost:3000/characters/${animalID}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        votes: 0,
-      }),
+    card.addEventListener("mouseleave", () => {
+      cardbody.style.top = "-100%";
     });
-  }
-  //********************************************************* */
-  // Function to increase the vote count when the vote button is clicked
-  function IncreaseVoteCount(animalID, animalVotes, btn) {
-    fetch(`http://localhost:3000/characters/${animalID}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        votes: animalVotes + 1,
-      }),
+  });
+}
+//**************************************************************88 */
+function voteReseter(animalID) {
+  fetch(`http://localhost:3000/characters/${animalID}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      votes: 0,
+    }),
+  });
+}
+//********************************************************* */
+// Function to increase the vote count when the vote button is clicked
+function IncreaseVoteCount(animalID, animalVotes, btn) {
+  fetch(`http://localhost:3000/characters/${animalID}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      votes: animalVotes + 1,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      btn.setAttribute("data-animal-votes", data.votes);
+      btn.textContent = `Votes: ${data.votes}`;
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        btn.setAttribute("data-animal-votes", data.votes);
-        btn.textContent = `Votes: ${data.votes}`;
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }
-  //********************************************************** */
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+//********************************************************** */
 
-  function FetchAllData() {
-    fetch("http://localhost:3000/characters")
-      .then((res) => {
-        if (res.ok) {
-          console.log("HTTP request SUCCESSFUL");
-        } else {
-          console.log("HTTP request NOT SUCCESSFUL");
-        }
-        return res.json();
-      })
-      .then((data) => renderCard(data))
-      .catch((error) => console.log(error));
-  }
+function FetchAllData() {
+  fetch("http://localhost:3000/characters")
+    .then((res) => {
+      if (res.ok) {
+        console.log("HTTP request SUCCESSFUL");
+      } else {
+        console.log("HTTP request NOT SUCCESSFUL");
+      }
+      return res.json();
+    })
+    .then((data) => renderCard(data))
+    .catch((error) => console.log(error));
+}
 
-  FetchAllData();
-});
+FetchAllData();
