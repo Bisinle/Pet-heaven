@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //**********INCREASES THE VOTE COUNT************************** */
     voteBtn.forEach((btn) => {
       btn.addEventListener("click", (e) => {
-        e.preventDefault();
+        e.stopPropagation();
         const animalID = btn.getAttribute("data-animal-id");
         const animalVotes = parseInt(btn.getAttribute("data-animal-votes"));
         console.log(animalVotes);
