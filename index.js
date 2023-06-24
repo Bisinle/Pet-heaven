@@ -29,7 +29,8 @@ function postForm(formObject, input) {
     ) {
       alert("please fill the all the input fiels");
     } else {
-      
+      joinTheFamily(formObject);
+
       for (const key in formObject) {
         delete formObject[key];
       }
@@ -39,7 +40,16 @@ function postForm(formObject, input) {
     }
   });
 }
-
+//********************************************** */
+function joinTheFamily(formObject) {
+  fetch(`http://localhost:3000/characters`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formObject),
+  });
+}
 //***************************************************************** */
 // Function that creates the cards
 function renderCard(animals) {
