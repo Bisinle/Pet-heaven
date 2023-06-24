@@ -3,6 +3,7 @@ const form = document.querySelector("form");
 const AllInput = document.querySelectorAll(".inputs");
 const submitBtn = document.querySelector(".submit");
 
+//function to create the
 function inputObject(input) {
   let formObject = {};
   for (let i = 0; i < input.length; i++) {
@@ -18,17 +19,14 @@ function inputObject(input) {
 //the input object creator
 inputObject(AllInput);
 //the POST function
-function postForm(formObject, input) {
+function postForm(formObject, input, votes = 0) {
   console.log(formObject);
 
   submitBtn.addEventListener("click", () => {
-    if (
-      input[0].value === "" ||
-      input[1].value === "" ||
-      input[2].value === ""
-    ) {
+    if (input[0].value === "" || input[1].value === "") {
       alert("please fill the all the input fiels");
     } else {
+      formObject.votes = votes;
       joinTheFamily(formObject);
 
       for (const key in formObject) {
@@ -40,7 +38,7 @@ function postForm(formObject, input) {
     }
   });
 }
-//********************************************** */
+//*************JOIN THE FAMILY********************************* */
 function joinTheFamily(formObject) {
   fetch(`http://localhost:3000/characters`, {
     method: "POST",
@@ -60,6 +58,8 @@ function renderCard(animals) {
     Card.classList.add("card");
     Card.innerHTML = `
       <h1 class="card-title">${animal.name}</h1>
+      <a href=""><i id="trash-${animal.id}" class="fa-solid fa-trash-can fa-xs"></i></a>
+
       <div class="card-body card-bodyHover">
         <img src="${animal.image}" class="card-img" alt="" />
         <div class="">
@@ -70,6 +70,12 @@ function renderCard(animals) {
     `;
 
     mainDiv.append(Card);
+
+    //trash i con deleltes
+    let deleteIcon = document.getElementById(`trash-${animal.id}`);
+    deleteIcon.addEventListener("click", () => {
+      DeleteCard(animal.id);
+    });
   }
 
   let voteBtn = mainDiv.querySelectorAll(".card .votes");
@@ -96,6 +102,18 @@ function renderCard(animals) {
 
   clickAnimalName(mainDiv);
 }
+//*********************************************************************** */
+//*********************************************************************** */
+//DeleteCard
+function DeleteCard(animalID) {
+  fetch(`http://localhost:3000/characters/${animalID}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+//*********************************************************************** */
 //*********************************************************************** */
 
 // Function to display the details of the animal when the name is clicked
