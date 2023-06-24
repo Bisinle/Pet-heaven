@@ -9,13 +9,11 @@ function inputObject(input) {
     input[i].addEventListener("input", (e) => {
       input[i].setAttribute("value", `${e.target.value}`);
       formObject[input[i].id] = input[i].value;
-      input[i] = "";
     });
   }
 
   // formObject.votes = votes;
   postForm(formObject, input);
-  delete formObject;
 }
 //the input object creator
 inputObject(AllInput);
@@ -24,15 +22,21 @@ function postForm(formObject, input) {
   console.log(formObject);
 
   submitBtn.addEventListener("click", () => {
-    console.log(formObject);
-    for (const key in formObject) {
-      delete formObject[key];
-    }
-    input.forEach((input) => {
-      if (input.value ===''){
-        alert("allas")
+    if (
+      input[0].value === "" ||
+      input[1].value === "" ||
+      input[2].value === ""
+    ) {
+      alert("please fill the all the input fiels");
+    } else {
+      
+      for (const key in formObject) {
+        delete formObject[key];
       }
-    });
+      input.forEach((currentInput) => {
+        currentInput.value = "";
+      });
+    }
   });
 }
 
