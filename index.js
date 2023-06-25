@@ -24,7 +24,12 @@ function postForm(formObject, input, votes = 0) {
 
   submitBtn.addEventListener("click", () => {
     if (input[0].value === "" || input[1].value === "") {
-      alert("please fill the all the input fiels");
+      alert("please fill  all the input fiels");
+    } else if (
+      !input[1].value.includes("https") ||
+      !input[1].value.includes("https")
+    ) {
+      alert("this is not an Image LINK");
     } else {
       formObject.votes = votes;
       joinTheFamily(formObject);

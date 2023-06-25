@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 body {
-  background: linear-gradient(135deg, #0f0c29, #02554a, #53468a, #05aeae);
+  background: linear-gradient(135deg, #363164, #213, #53468a, #05aeae);
   animation: anim 1s infinite alternate;
   display: flex;
   justify-content: center;
@@ -13,10 +13,10 @@ body {
   width: 100%;
 }
 @keyframes anim {
-  from{
+  from {
     background-position: 0%;
   }
-  to{
+  to {
     background-position: 400%;
   }
 }
@@ -26,10 +26,12 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .container-header {
   font-size: 4rem;
   color: white;
   text-decoration: underline;
+  margin-top: 50px;
 }
 
 form {
@@ -50,6 +52,7 @@ form fieldset {
   padding: 0px;
   position: relative;
   border-radius: 20px;
+  background-color: #213;
 }
 .input-data {
   height: 50px;
