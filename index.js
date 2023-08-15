@@ -43,7 +43,6 @@ function postForm(formObject, input, votes = 0) {
     }
   });
 }
-//*************JOIN THE FAMILY********************************* */
 function joinTheFamily(formObject) {
   fetch(`http://localhost:3000/characters`, {
     method: "POST",
@@ -53,7 +52,6 @@ function joinTheFamily(formObject) {
     body: JSON.stringify(formObject),
   });
 }
-//***************************************************************** */
 // Function that creates the cards
 function renderCard(animals) {
   const mainDiv = document.querySelector("#main");
@@ -106,10 +104,7 @@ function renderCard(animals) {
   });
 
   clickAnimalName(mainDiv);
-}
-//*********************************************************************** */
-//*********************************************************************** */
-//DeleteCard
+} //DeleteCard
 function DeleteCard(animalID) {
   fetch(`http://localhost:3000/characters/${animalID}`, {
     method: "DELETE",
@@ -118,9 +113,6 @@ function DeleteCard(animalID) {
     },
   });
 }
-//*********************************************************************** */
-//*********************************************************************** */
-
 // Function to display the details of the animal when the name is clicked
 function clickAnimalName(mainDiv) {
   let cards = mainDiv.querySelectorAll(".card");
@@ -134,7 +126,7 @@ function clickAnimalName(mainDiv) {
     });
   });
 }
-//**************************************************************88 */
+//function that resets the vote count of an animal
 function voteReseter(animalID) {
   fetch(`http://localhost:3000/characters/${animalID}`, {
     method: "PATCH",
@@ -145,9 +137,7 @@ function voteReseter(animalID) {
       votes: 0,
     }),
   });
-}
-//********************************************************* */
-// Function to increase the vote count when the vote button is clicked
+} // Function to increase the vote count when the vote button is clicked
 function IncreaseVoteCount(animalID, animalVotes, btn) {
   fetch(`http://localhost:3000/characters/${animalID}`, {
     method: "PATCH",
@@ -168,8 +158,6 @@ function IncreaseVoteCount(animalID, animalVotes, btn) {
       console.error("Error:", error);
     });
 }
-//********************************************************** */
-
 function FetchAllData() {
   fetch("http://localhost:3000/characters")
     .then((res) => {
