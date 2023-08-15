@@ -44,7 +44,7 @@ function postForm(formObject, input, votes = 0) {
   });
 }
 function joinTheFamily(formObject) {
-  fetch(`http://localhost:3000/characters`, {
+  fetch(`https://pet-heaven-server.onrender.com/characters`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -106,7 +106,7 @@ function renderCard(animals) {
   clickAnimalName(mainDiv);
 } //DeleteCard
 function DeleteCard(animalID) {
-  fetch(`http://localhost:3000/characters/${animalID}`, {
+  fetch(`https://pet-heaven-server.onrender.com/characters/${animalID}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -128,7 +128,7 @@ function clickAnimalName(mainDiv) {
 }
 //function that resets the vote count of an animal
 function voteReseter(animalID) {
-  fetch(`http://localhost:3000/characters/${animalID}`, {
+  fetch(`https://pet-heaven-server.onrender.com/characters/${animalID}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -139,7 +139,7 @@ function voteReseter(animalID) {
   });
 } // Function to increase the vote count when the vote button is clicked
 function IncreaseVoteCount(animalID, animalVotes, btn) {
-  fetch(`http://localhost:3000/characters/${animalID}`, {
+  fetch(`https://pet-heaven-server.onrender.com/characters/${animalID}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -159,7 +159,7 @@ function IncreaseVoteCount(animalID, animalVotes, btn) {
     });
 }
 function FetchAllData() {
-  fetch("http://localhost:3000/characters")
+  fetch("https://pet-heaven-server.onrender.com/characters")
     .then((res) => {
       if (res.ok) {
         console.log("HTTP request SUCCESSFUL");
